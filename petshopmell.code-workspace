@@ -3,5 +3,23 @@
 		{
 			"path": "."
 		}
-	]
+	],
+	"settings": {
+		"sqltools.connections": [
+			{
+				"mysqlOptions": {
+					"authProtocol": "default",
+					"enableSsl": "Disabled"
+				},
+				"previewLimit": 100,
+				"server": "192.168.0.15",
+				"port": 3306,
+				"driver": "mysql",
+				"name": "petshopmell",
+				"database": "petshopmell",
+				"username": "root",
+				"password": ""
+			}
+		]
+	}
 }
