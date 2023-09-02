@@ -12,9 +12,9 @@
 					"enableSsl": "Disabled"
 				},
 				"previewLimit": 100,
-				"server": "localhost",
+				"server": "192.168.0.15",
 				"port": 3306,
-				"driver": "MariaDB",
+				"driver": "mysql",
 				"name": "petshopmell",
 				"database": "petshopmell",
 				"username": "root",
