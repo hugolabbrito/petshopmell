@@ -1,5 +1,64 @@
 <?php
 include_once('conexao.php');
+
+// Conexão com o banco de dados
+$conexao = new mysqli($hostname, $username, $password, $database);
+
+// Verifica se houve erro na conexão
+if ($conexao->connect_error) {
+    die("Erro na conexão com o banco de dados: " . $conexao->connect_error);
+}
+
+// Defina o conjunto de caracteres para UTF-8, se necessário
+$conexao->set_charset("utf8");
+
+// Buscar o cliente pelo ID (substitua 1 pelo ID do cliente desejado)
+$cliente = buscarClientePorID($conexao, 1);
+
+// Buscar produtos disponíveis
+$produtos = buscarProdutosDisponiveis($conexao);
+
+// Exibir informações do cliente e produtos na tela de venda
+if ($cliente) {
+    // Exibir informações do cliente (por exemplo, nome)
+    echo "Cliente: " . $cliente["nome"] . "<br>";
+}
+
+if (!empty($produtos)) {
+    // Exibir lista de produtos disponíveis
+    echo "<h3>Produtos Disponíveis:</h3>";
+    foreach ($produtos as $produto) {
+        echo "ID: " . $produto["id"] . " - Nome: " . $produto["nome"] . " - Preço: R$ " . $produto["preco"] . "<br>";
+    }
+} else {
+    echo "Nenhum produto disponível.";
+}
+
+function buscarClientePorID($conexao, $clienteID) {
+    $sql = "SELECT * FROM clientes WHERE id = ?";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("i", $clienteID);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    
+    if ($resultado->num_rows > 0) {
+        return $resultado->fetch_assoc();
+    } else {
+        return null; // Cliente não encontrado
+    }
+}
+
+function buscarProdutosDisponiveis($conexao) {
+    $sql = "SELECT * FROM produtos";
+    $resultado = $conexao->query($sql);
+    
+    if ($resultado->num_rows > 0) {
+        return $resultado->fetch_all(MYSQLI_ASSOC);
+    } else {
+        return array(); // Nenhum produto encontrado
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html>
